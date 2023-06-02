@@ -11,4 +11,12 @@ ISIT312
 │   │   ├── solution2.java
 │   │   ├── solution3.java
 │   │   ├── solutions.pdf
+├── ├── A2-solutions
+│   │   ├── assigment2.pdf
+│   │   ├── solution1.pdf
+│   │   ├── solution2.pdf
+│   │   ├── solution3.hql
+│   │   ├── solution3.rpt
+│   │   ├── solution4.hql
+│   │   ├── solution4.rpt
 ```

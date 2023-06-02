@@ -1,0 +1,43 @@
+>>>  CREATE TABLE employees ( 
+employeeId VARCHAR(3), 
+fullName  VARCHAR(60), 
+projects MAP<STRING, INT>, 
+languages ARRAY<STRING>) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' 
+STORED AS TEXTFILE;
+No rows affected (0.082 seconds)
+>>>  
+>>>  INSERT INTO employees 
+SELECT '007', 'James Bond', map('DB/3', 30, 'Oracle', 25, 'SQL-2022', 100), array('Java','C','C++');
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+No rows affected (11.436 seconds)
+>>>  INSERT INTO employees 
+SELECT '008', 'James Bond', map('DB/3', 70, 'Oracle', 100), array();
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+No rows affected (14.762 seconds)
+>>>  INSERT INTO employees 
+SELECT '010', 'Robin Banks', map(null, cast(null as int)), array('C','Rust');
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+No rows affected (16.044 seconds)
+>>>  INSERT INTO employees 
+SELECT '009', 'Robin Hood', map(null, cast(null as int)), array();
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+No rows affected (14.578 seconds)
+>>>  INSERT INTO employees 
+SELECT '011', 'Elroy Chua', map('CinemaBookingSytem', 100), array('React', 'NextJS', 'Postgresql');
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
+No rows affected (16.635 seconds)
+>>>  
+>>>  SELECT * FROM employees;
++-----------------------+---------------------+-----------------------------------------+----------------------------------+--+
+| employees.employeeid  | employees.fullname  |           employees.projects            |       employees.languages        |
++-----------------------+---------------------+-----------------------------------------+----------------------------------+--+
+| 007                   | James Bond          | {"DB/3":30,"Oracle":25,"SQL-2022":100}  | ["Java","C","C++"]               |
+| 008                   | James Bond          | {"DB/3":70,"Oracle":100}                | []                               |
+| 010                   | Robin Banks         | {}                                      | ["C","Rust"]                     |
+| 009                   | Robin Hood          | {}                                      | []                               |
+| 011                   | Elroy Chua          | {"CinemaBookingSytem":100}              | ["React","NextJS","Postgresql"]  |
++-----------------------+---------------------+-----------------------------------------+----------------------------------+--+
+5 rows selected (0.2 seconds)
+>>>  
+>>>  

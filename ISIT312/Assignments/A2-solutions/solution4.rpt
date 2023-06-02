@@ -1,0 +1,110 @@
+>>>  -- Creating Table Statements
+>>>  DROP TABLE part;
+No rows affected (0.079 seconds)
+>>>  CREATE EXTERNAL TABLE IF NOT EXISTS part ( 
+p_partkey INT, 
+p_name VARCHAR(255), 
+p_mfgr VARCHAR(50), 
+p_brand VARCHAR(50), 
+p_type VARCHAR(50), 
+p_size INT, 
+p_container VARCHAR(50), 
+p_retailprice DECIMAL(10, 2), 
+p_comment VARCHAR(255) 
+) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' 
+stored as textfile 
+LOCATION '/user/hive/warehouse/a2task4.db/part';
+No rows affected (0.159 seconds)
+>>>  
+>>>  DROP TABLE supplier;
+No rows affected (0.139 seconds)
+>>>  CREATE EXTERNAL TABLE IF NOT EXISTS supplier ( 
+s_suppkey INT, 
+s_name VARCHAR(255), 
+s_address VARCHAR(255), 
+s_unknown INT, 
+s_phone VARCHAR(50), 
+s_acctbal DECIMAL(10, 2), 
+s_comment VARCHAR(255) 
+) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '|' 
+stored as textfile 
+LOCATION '/user/hive/warehouse/a2task4.db/supplier';
+No rows affected (0.09 seconds)
+>>>  
+>>>  DROP TABLE partsupp;
+No rows affected (0.181 seconds)
+>>>  CREATE EXTERNAL TABLE IF NOT EXISTS partsupp ( 
+p_partkey INT, 
+s_suppkey INT, 
+ps_availqty INT, 
+ps_supplycost DECIMAL(10, 2), 
+ps_comment VARCHAR(255) 
+) 
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY '|' 
+stored as textfile 
+LOCATION '/user/hive/warehouse/a2task4.db/partsupp';
+No rows affected (0.066 seconds)
+>>>  
+>>>  -- Querying first 5 contents of external tables
+>>>  SELECT * FROM part LIMIT 5;
++-----------------+-----------------------------------------+-----------------+---------------+--------------------------+--------------+-------------------+---------------------+-------------------------+--+
+| part.p_partkey  |               part.p_name               |   part.p_mfgr   | part.p_brand  |       part.p_type        | part.p_size  | part.p_container  | part.p_retailprice  |     part.p_comment      |
++-----------------+-----------------------------------------+-----------------+---------------+--------------------------+--------------+-------------------+---------------------+-------------------------+--+
+| 1               | goldenrod lace spring peru powder       | Manufacturer#1  | Brand#13      | PROMO BURNISHED COPPER   | 7            | JUMBO PKG         | 901.00              | final deposits s        |
+| 2               | blush rosy metallic lemon navajo        | Manufacturer#1  | Brand#13      | LARGE BRUSHED BRASS      | 1            | LG CASE           | 902.00              | final platelets hang f  |
+| 3               | dark green antique puff wheat           | Manufacturer#4  | Brand#42      | STANDARD POLISHED BRASS  | 21           | WRAP CASE         | 903.00              | unusual excuses ac      |
+| 4               | chocolate metallic smoke ghost drab     | Manufacturer#3  | Brand#34      | SMALL PLATED BRASS       | 14           | MED DRUM          | 904.00              | ironi                   |
+| 5               | forest blush chiffon thistle chocolate  | Manufacturer#3  | Brand#32      | STANDARD POLISHED TIN    | 15           | SM PKG            | 905.00              | pending, spe            |
++-----------------+-----------------------------------------+-----------------+---------------+--------------------------+--------------+-------------------+---------------------+-------------------------+--+
+5 rows selected (0.576 seconds)
+>>>  SELECT * FROM supplier LIMIT 5;
++---------------------+---------------------+--------------------------------------+---------------------+-------------------+---------------------+------------------------------------------------------------------------------------------------+--+
+| supplier.s_suppkey  |   supplier.s_name   |          supplier.s_address          | supplier.s_unknown  | supplier.s_phone  | supplier.s_acctbal  |                                       supplier.s_comment                                       |
++---------------------+---------------------+--------------------------------------+---------------------+-------------------+---------------------+------------------------------------------------------------------------------------------------+--+
+| 1                   | Supplier#000000001  |  N kD4on9OM Ipw3,gf0JBoQDd7tgrzrddZ  | 17                  | 27-918-335-1736   | 5755.94             | requests haggle carefully. accounts sublate finally. carefully ironic pa                       |
+| 2                   | Supplier#000000002  | 89eJ5ksX3ImxJQBvxObC,                | 5                   | 15-679-861-2259   | 4032.68             | furiously stealthy frays thrash alongside of the slyly express deposits. blithely regular req  |
+| 3                   | Supplier#000000003  | q1,G3Pj6OjIuUYfUoH18BFTKP5aU9bEV3    | 1                   | 11-383-516-1199   | 4192.40             | furiously regular instructions impress slyly! carefu                                           |
+| 4                   | Supplier#000000004  | Bk7ah4CK8SYQTepEmvMkkgMwg            | 15                  | 25-843-787-7479   | 4641.08             | final ideas cajole. furiously close dep                                                        |
+| 5                   | Supplier#000000005  | Gcdm2rJRzl5qlTVzc                    | 11                  | 21-151-690-3663   | -283.84             | carefully silent instructions are slyly according t                                            |
++---------------------+---------------------+--------------------------------------+---------------------+-------------------+---------------------+------------------------------------------------------------------------------------------------+--+
+5 rows selected (0.136 seconds)
+>>>  SELECT * FROM partsupp LIMIT 5;
++---------------------+---------------------+-----------------------+-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--+
+| partsupp.p_partkey  | partsupp.s_suppkey  | partsupp.ps_availqty  | partsupp.ps_supplycost  |                                                                                       partsupp.ps_comment                                                                                        |
++---------------------+---------------------+-----------------------+-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--+
+| 1                   | 2                   | 3325                  | 771.64                  | requests after the carefully ironic ideas cajole alongside of the enticingly special accounts. fluffily regular deposits haggle about the blithely ironic deposits. regular requests sleep c     |
+| 1                   | 752                 | 8076                  | 993.49                  | careful pinto beans wake slyly furiously silent pinto beans. accounts wake pendi                                                                                                                 |
+| 1                   | 1502                | 3956                  | 337.09                  | boldly silent requests detect. quickly regular courts are. instructions haggle ironic foxes. sometimes final orbits cajole fluffily around the unusual foxes. slyly silent theodolites cajole r  |
+| 1                   | 2252                | 4069                  | 357.84                  | regular deposits are. furiously even packages cajole furiously. even pinto beans boost furiously final dependencies. f                                                                           |
+| 2                   | 3                   | 8895                  | 378.49                  | furiously even asymptotes are furiously regular plate                                                                                                                                            |
++---------------------+---------------------+-----------------------+-------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--+
+5 rows selected (0.13 seconds)
+>>>  
+>>>  -- Count the number of rows in each table
+>>>  SELECT COUNT(*) FROM part;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
++--------+--+
+|   c0   |
++--------+--+
+| 60000  |
++--------+--+
+1 row selected (15.615 seconds)
+>>>  SELECT COUNT(*) FROM supplier;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
++-------+--+
+|  c0   |
++-------+--+
+| 3000  |
++-------+--+
+1 row selected (19.173 seconds)
+>>>  SELECT COUNT(*) FROM partsupp;
+WARNING: Hive-on-MR is deprecated in Hive 2 and may not be available in the future versions. Consider using a different execution engine (i.e. spark, tez) or using Hive 1.X releases.
++---------+--+
+|   c0    |
++---------+--+
+| 240000  |
++---------+--+
+1 row selected (23.434 seconds)

@@ -1,0 +1,166 @@
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 1.2.6, rUnknown, Mon May 29 02:25:32 CDT 2017
+
+print 'Solution for Assignment 3, Task 1'
+Solution for Assignment 3, Task 1print 'Student number: 7431673'
+Student number: 7431673print 'Student name: Elroy Chua Ming Xuan'
+Student name: Elroy Chua Ming Xuan
+disable 'SOLUTION1'
+0 row(s) in 2.5100 seconds
+
+drop 'SOLUTION1'
+0 row(s) in 1.2550 seconds
+
+create 'SOLUTION1', 'DEPARTMENT', 'EMPLOYEE', 'PROJECT'
+0 row(s) in 1.2460 seconds
+
+Hbase::Table - SOLUTION1
+describe 'SOLUTION1'
+Table SOLUTION1 is ENABLED
+SOLUTION1
+COLUMN FAMILIES DESCRIPTION
+{NAME => 'DEPARTMENT', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}
+{NAME => 'EMPLOYEE', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}
+{NAME => 'PROJECT', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}
+3 row(s) in 0.0310 seconds
+
+
+put 'SOLUTION1','department: TECH','DEPARTMENT: name','TECH'
+0 row(s) in 0.0470 seconds
+
+put 'SOLUTION1','department: TECH','DEPARTMENT: budget','49000'
+0 row(s) in 0.0080 seconds
+
+
+put 'SOLUTION1','employee:E001|TECH|001','EMPLOYEE: enumber','E001'
+0 row(s) in 0.0160 seconds
+
+put 'SOLUTION1','employee:E001|TECH|001','EMPLOYEE: first-name','Elroy'
+0 row(s) in 0.0130 seconds
+
+put 'SOLUTION1','employee:E001|TECH|001','EMPLOYEE: last-name','Chua'
+0 row(s) in 0.0060 seconds
+
+put 'SOLUTION1','employee:E001|TECH|001','EMPLOYEE: salary','5000'
+0 row(s) in 0.0070 seconds
+
+put 'SOLUTION1','employee:E001|TECH|001','EMPLOYEE: isDepartmentManager','false'
+0 row(s) in 0.0080 seconds
+
+put 'SOLUTION1','employee:E001|TECH|001','DEPARTMENT: name','TECH'
+0 row(s) in 0.0090 seconds
+
+put 'SOLUTION1','employee:E001|TECH|001','PROJECT: code','001'
+0 row(s) in 0.0110 seconds
+
+
+put 'SOLUTION1','employee:E002|TECH|002','EMPLOYEE: enumber','E002'
+0 row(s) in 0.0070 seconds
+
+put 'SOLUTION1','employee:E002|TECH|002','EMPLOYEE: first-name','John'
+0 row(s) in 0.0050 seconds
+
+put 'SOLUTION1','employee:E002|TECH|002','EMPLOYEE: last-name','Doe'
+0 row(s) in 0.0040 seconds
+
+put 'SOLUTION1','employee:E002|TECH|002','EMPLOYEE: salary','4500'
+0 row(s) in 0.0130 seconds
+
+put 'SOLUTION1','employee:E002|TECH|002','EMPLOYEE: isDepartmentManager','false'
+0 row(s) in 0.0030 seconds
+
+put 'SOLUTION1','employee:E002|TECH|002','DEPARTMENT: name','TECH'
+0 row(s) in 0.0040 seconds
+
+put 'SOLUTION1','employee:E002|TECH|002','PROJECT: code','002'
+0 row(s) in 0.0050 seconds
+
+
+put 'SOLUTION1','employee:E003|TECH|002','EMPLOYEE: enumber','E003'
+0 row(s) in 0.0030 seconds
+
+put 'SOLUTION1','employee:E003|TECH|002','EMPLOYEE: first-name','Alex'
+0 row(s) in 0.0080 seconds
+
+put 'SOLUTION1','employee:E003|TECH|002','EMPLOYEE: last-name','Wasabi'
+0 row(s) in 0.0120 seconds
+
+put 'SOLUTION1','employee:E003|TECH|002','EMPLOYEE: salary','12000'
+0 row(s) in 0.0160 seconds
+
+put 'SOLUTION1','employee:E003|TECH|002','EMPLOYEE: isDepartmentManager','true'
+0 row(s) in 0.0040 seconds
+
+put 'SOLUTION1','employee:E003|TECH|002','DEPARTMENT: name','TECH'
+0 row(s) in 0.0040 seconds
+
+put 'SOLUTION1','employee:E003|TECH|002','PROJECT: code','001'
+0 row(s) in 0.0040 seconds
+
+put 'SOLUTION1','employee:E003|TECH|002','PROJECT: code','002'
+0 row(s) in 0.0050 seconds
+
+
+put 'SOLUTION1', 'project:001', 'PROJECT: code', '001'
+0 row(s) in 0.0050 seconds
+
+put 'SOLUTION1', 'project:001', 'PROJECT: title', 'Migration from old stack to new stack'
+0 row(s) in 0.0040 seconds
+
+put 'SOLUTION1', 'project:001', 'PROJECT: salary', '25000'
+0 row(s) in 0.0060 seconds
+
+
+put 'SOLUTION1', 'project:002', 'PROJECT: code', '002'
+0 row(s) in 0.0030 seconds
+
+put 'SOLUTION1', 'project:002', 'PROJECT: title', 'Web Scraper'
+0 row(s) in 0.0040 seconds
+
+put 'SOLUTION1', 'project:002', 'PROJECT: salary', '10000'
+0 row(s) in 0.0040 seconds
+
+
+describe 'SOLUTION1'
+Table SOLUTION1 is ENABLED
+SOLUTION1
+COLUMN FAMILIES DESCRIPTION
+{NAME => 'DEPARTMENT', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}
+{NAME => 'EMPLOYEE', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}
+{NAME => 'PROJECT', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCACHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}
+3 row(s) in 0.0160 seconds
+
+scan 'SOLUTION1'
+ROW  COLUMN+CELL
+ department: TECH column=DEPARTMENT: budget, timestamp=1685725309387, value=49000
+ department: TECH column=DEPARTMENT: name, timestamp=1685725309366, value=TECH
+ employee:E001|TECH|001 column=DEPARTMENT: name, timestamp=1685725309466, value=TECH
+ employee:E001|TECH|001 column=EMPLOYEE: enumber, timestamp=1685725309396, value=E001
+ employee:E001|TECH|001 column=EMPLOYEE: first-name, timestamp=1685725309427, value=Elroy
+ employee:E001|TECH|001 column=EMPLOYEE: isDepartmentManager, timestamp=1685725309454, value=false
+ employee:E001|TECH|001 column=EMPLOYEE: last-name, timestamp=1685725309436, value=Chua
+ employee:E001|TECH|001 column=EMPLOYEE: salary, timestamp=1685725309445, value=5000
+ employee:E001|TECH|001 column=PROJECT: code, timestamp=1685725309490, value=001
+ employee:E002|TECH|002 column=DEPARTMENT: name, timestamp=1685725309562, value=TECH
+ employee:E002|TECH|002 column=EMPLOYEE: enumber, timestamp=1685725309514, value=E002
+ employee:E002|TECH|002 column=EMPLOYEE: first-name, timestamp=1685725309523, value=John
+ employee:E002|TECH|002 column=EMPLOYEE: isDepartmentManager, timestamp=1685725309556, value=false
+ employee:E002|TECH|002 column=EMPLOYEE: last-name, timestamp=1685725309533, value=Doe
+ employee:E002|TECH|002 column=EMPLOYEE: salary, timestamp=1685725309548, value=4500
+ employee:E002|TECH|002 column=PROJECT: code, timestamp=1685725309572, value=002
+ employee:E003|TECH|002 column=DEPARTMENT: name, timestamp=1685725309639, value=TECH
+ employee:E003|TECH|002 column=EMPLOYEE: enumber, timestamp=1685725309580, value=E003
+ employee:E003|TECH|002 column=EMPLOYEE: first-name, timestamp=1685725309585, value=Alex
+ employee:E003|TECH|002 column=EMPLOYEE: isDepartmentManager, timestamp=1685725309633, value=true
+ employee:E003|TECH|002 column=EMPLOYEE: last-name, timestamp=1685725309602, value=Wasabi
+ employee:E003|TECH|002 column=EMPLOYEE: salary, timestamp=1685725309611, value=12000
+ employee:E003|TECH|002 column=PROJECT: code, timestamp=1685725309651, value=002
+ project:001 column=PROJECT: code, timestamp=1685725309660, value=001
+ project:001 column=PROJECT: salary, timestamp=1685725309673, value=25000
+ project:001 column=PROJECT: title, timestamp=1685725309667, value=Migration from old stack to new stack
+ project:002 column=PROJECT: code, timestamp=1685725309680, value=002
+ project:002 column=PROJECT: salary, timestamp=1685725309691, value=10000
+ project:002 column=PROJECT: title, timestamp=1685725309686, value=Web Scraper
+6 row(s) in 0.0360 seconds
+

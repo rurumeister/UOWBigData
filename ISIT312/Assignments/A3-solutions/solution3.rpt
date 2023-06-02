@@ -1,0 +1,154 @@
+//Solution for Assignment 3, Task 3
+//Student number: 7431673
+//Student name: Elroy Chua Ming Xuan
+
+grunt> customer = load 'customer.tbl' using PigStorage('|')
+as
+(CUSTOMER_ID:int, CUSTOMER_CODE:chararray, COMPANY_NAME:chararray, CONTACT_NAME:chararray, CONTACT_TITLE:chararray, CITY:chararray, REGION: chararray, POSTAL_CODE: chararray, COUNTRY: chararray, PHONE:chararray, FAX:chararray);
+salesPerson = load 'salesperson.tbl' using PigStorage('|')
+as 
+(EMPLOYEE_ID:int, LASTNAME:chararray, FIRSTNAME:chararray, TITLE:chararray, BIRTHDATE:chararray, HIREDATE:chararray, NOTES:chararray);
+orderDetail = load 'order_detail.tbl' using PigStorage('|')
+as
+(ORDER_ID:int, PRODUCT_ID:int, CUSTOMER_ID:int, SALESPERSON_ID:int, UNIT_PRICE:float, QUANTITY:int, DISCOUNT:float);
+product = load 'product.tbl' using PigStorage ('|')
+as
+(PRODUCT_ID:int, PRODUCT_NAME:chararray, UNIT_PRICE:float, UNITS_IN_STOCK:int, UNITS_ON_ORDER:int, DISCONTINUED:int);
+orders = load 'order.tbl' using PigStorage('|')
+as
+(ORDER_ID:int, ORDER_DATE:chararray, SHIP_VIA:int, SHIP_CITY:chararray, SHIP_REGION:chararray, SHIP_POSTAL_CODE:chararray, SHIP_COUNTRY:chararray);
+2023-06-03 03:06:00,659 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+2023-06-03 03:06:00,888 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+2023-06-03 03:06:01,065 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+2023-06-03 03:06:01,321 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+2023-06-03 03:06:01,593 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+
+(2) Find the first and the last name (first-name, last-name) of sales people who handled the orders submitted by a company Consolidated Holdings
+grunt> targetCompany = filter customer by COMPANY_NAME == ' Consolidated Holdings ';
+grunt> targetCompanyJoinOrderDetail = JOIN targetCompany BY CUSTOMER_ID, orderDetail BY CUSTOMER_ID;
+grunt> salesPersonJoinCustomerOrderDetail = JOIN targetCompanyJoinOrderDetail by SALESPERSON_ID, salesPerson by EMPLOYEE_ID;
+grunt> targetSalesPersonResult = foreach salesPersonJoinCustomerOrderDetail generate FIRSTNAME, LASTNAME;
+grunt> result2 = distinct targetSalesPersonResult;
+grunt> dump result2;
+( Laura , Callahan )
+( Andrew , Fuller )
+( Robert , King )
+
+(3) Find the total number of products not ordered in 1996, groupBy, filter out from order, take out from 1996, group by and count.
+grunt> orderDetail = load 'order_detail.tbl' using PigStorage('|')
+>> as
+>> (ORDER_ID:int, PRODUCT_ID:int, CUSTOMER_ID:int, SALESPERSON_ID:int, UNIT_PRICE:float, QUANTITY:int, DISCOUNT:float);
+2023-06-03 03:11:37,638 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+grunt> product = load 'product.tbl' using PigStorage ('|')
+>> as
+>> (PRODUCT_ID:int, PRODUCT_NAME:chararray, UNIT_PRICE:float, UNITS_IN_STOCK:int, UNITS_ON_ORDER:int, DISCONTINUED:int);
+2023-06-03 03:11:37,897 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+grunt> orders = load 'order.tbl' using PigStorage('|')
+>> as
+>> (ORDER_ID:int, ORDER_DATE:chararray, SHIP_VIA:int, SHIP_CITY:chararray, SHIP_REGION:chararray, SHIP_POSTAL_CODE:chararray, SHIP_COUNTRY:chararray);
+2023-06-03 03:11:38,342 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+grunt> order_join_orderDetail = join orderDetail by ORDER_ID left outer, orders by ORDER_ID;
+grunt> order1996 = foreach(filter order_join_orderDetail by ORDER_DATE matches '.*1996.*') generate orderDetail::ORDER_ID, ORDER_DATE;
+grunt> order1996_join_orderDetail = join orderDetail by ORDER_ID left outer, order1996 by ORDER_ID;
+grunt> orderNot1996 = foreach(filter order1996_join_orderDetail by orders::ORDER_DATE is null) generate orderDetail::ORDER_ID, orders::ORDER_DATE;
+grunt> groupOrderNot1996 = group orderNot1996 by ORDER_ID;
+grunt> countOrderNot1996 = foreach groupOrderNot1996 generate COUNT(orderNot1996);
+grunt> totalNot1996 = group countOrderNot1996 ALL;
+grunt> result3 = foreach totalNot1996 generate SUM(countOrderNot1996);
+grunt> dump result3;
+(1750)
+
+(4) Summarizations of quantities (quantity) per ordered product (product-id), Use group __ by __ and SUM the quantity you want to find
+grunt> productJoinOrderDetail = JOIN orderDetail by PRODUCT_ID left outer, product by PRODUCT_ID;
+grunt> orderQty = foreach(filter productJoinOrderDetail by orderDetail::PRODUCT_ID is not null) generate orderDetail::PRODUCT_ID, QUANTITY;
+grunt> orderGrp = group orderQty by PRODUCT_ID;
+grunt> result4 = foreach orderGrp generate group, COUNT(orderQty);
+grunt> dump result4;
+(1,38)
+(2,44)
+(3,12)
+(4,20)
+(5,10)
+(6,12)
+(7,29)
+(8,13)
+(9,5)
+(10,33)
+(11,38)
+(12,14)
+(13,40)
+(14,22)
+(15,6)
+(16,43)
+(17,37)
+(18,27)
+(19,37)
+(20,16)
+(21,39)
+(22,14)
+(23,20)
+(24,51)
+(25,18)
+(26,32)
+(27,9)
+(28,33)
+(29,32)
+(30,32)
+(31,51)
+(32,15)
+(33,32)
+(34,19)
+(35,36)
+(36,31)
+(37,6)
+(38,24)
+(39,30)
+(40,41)
+(41,47)
+(42,30)
+(43,28)
+(44,24)
+(45,14)
+(46,27)
+(47,21)
+(48,6)
+(49,21)
+(50,10)
+(51,39)
+(52,29)
+(53,30)
+(54,36)
+(55,33)
+(56,50)
+(57,23)
+(58,18)
+(59,54)
+(60,51)
+(61,24)
+(62,48)
+(63,17)
+(64,30)
+(65,32)
+(66,8)
+(67,10)
+(68,34)
+(69,31)
+(70,39)
+(71,42)
+(72,38)
+(73,14)
+(74,13)
+(75,46)
+(76,39)
+(77,38)
+
+(5) Find the identifiers of orders (order-id) that included both Ikura and Tofu. Use intersection, container called Ikura, contains all Ikura, another container that is Tofu. In this segment, where Tofu and Ikura exists.
+grunt> product_join_orderDetail = join orderDetail by PRODUCT_ID, product by PRODUCT_ID;
+grunt> ikura = foreach(filter product_join_orderDetail by PRODUCT_NAME == ' Ikura ') generate ORDER_ID, PRODUCT_NAME;
+grunt> tofu = foreach (filter product_join_orderDetail by PRODUCT_NAME == ' Tofu ') generate ORDER_ID, PRODUCT_NAME;
+grunt> ikuraAndtofu = join ikura by ORDER_ID left outer, tofu by ORDER_ID;
+grunt> totalOrder = foreach(filter ikuraAndtofu by tofu::product::PRODUCT_NAME is not null) generate ikura::orderDetail::ORDER_ID;
+grunt> distTotal = distinct totalOrder;
+grunt> dump distTotal;
+(11077)
+

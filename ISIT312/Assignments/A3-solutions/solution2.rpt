@@ -1,0 +1,113 @@
+HBase Shell; enter 'help<RETURN>' for list of supported commands.
+Type "exit<RETURN>" to leave the HBase Shell
+Version 1.2.6, rUnknown, Mon May 29 02:25:32 CDT 2017
+
+print 'Solution for Assignment 3, Task 2'
+Solution for Assignment 3, Task 2print 'Student number: 7431673'
+Student number: 7431673print 'Student name: Elroy Chua Ming Xuan'
+Student name: Elroy Chua Ming Xuan
+get 'task2', 'student|007'
+COLUMN  CELL
+ STUDENT:degree timestamp=1685725134427, value=MIT
+ STUDENT:fname timestamp=1685725134239, value=James
+ STUDENT:lname timestamp=1685725134326, value=Bond
+ STUDENT:snumber timestamp=1685725134189, value=007
+4 row(s) in 0.2630 seconds
+
+
+get 'task2', 'submission|007|312|assignment|1'
+COLUMN  CELL
+ FILES:fnumber1 timestamp=1685725134779, value=path/file-name1-1
+ FILES:fnumber2 timestamp=1685725134790, value=path/file-name1-1
+ STUDENT:snumber timestamp=1685725134741, value=007
+ SUBJECT:code timestamp=1685725134759, value=312
+ SUBMISSION:dayslate timestamp=1685725134684, value=0
+ SUBMISSION:esignature timestamp=1685725134654, value=jb
+ SUBMISSION:sdate timestamp=1685725134638, value=01-APR-2017
+ SUBMISSION:tnumber timestamp=1685725134722, value=1
+ SUBMISSION:totalfiles timestamp=1685725134669, value=2
+ SUBMISSION:type timestamp=1685725134700, value=assignment
+10 row(s) in 0.0190 seconds
+
+
+scan 'task2', {COLUMNS => ['STUDENT:fname', 'STUDENT:lname']}
+ROW  COLUMN+CELL
+ student|007 column=STUDENT:fname, timestamp=1685725134239, value=James
+ student|007 column=STUDENT:lname, timestamp=1685725134326, value=Bond
+ student|666 column=STUDENT:fname, timestamp=1685725134460, value=Harry
+ student|666 column=STUDENT:lname, timestamp=1685725134469, value=Potter
+2 row(s) in 0.0300 seconds
+
+
+scan 'task2', {FILTER=> "SingleColumnValueFilter('STUDENT', 'lname', =, 'binary:Potter')", COLUMNS => ['STUDENT:snumber', 'STUDENT:fname', 'STUDENT:lname', 'STUDENT:degree']}
+ROW  COLUMN+CELL
+ student|666 column=STUDENT:degree, timestamp=1685725134489, value=BCS
+ student|666 column=STUDENT:fname, timestamp=1685725134460, value=Harry
+ student|666 column=STUDENT:lname, timestamp=1685725134469, value=Potter
+ student|666 column=STUDENT:snumber, timestamp=1685725134449, value=666
+ submission|007|312|assignment|1 column=STUDENT:snumber, timestamp=1685725134741, value=007
+ submission|007|312|assignment|2 column=STUDENT:snumber, timestamp=1685725134852, value=007
+ submission|007|313|project|1 column=STUDENT:snumber, timestamp=1685725135009, value=007
+ submission|666|312|assignment|1 column=STUDENT:snumber, timestamp=1685725135266, value=666
+ submission|666|312|assignment|2 column=STUDENT:snumber, timestamp=1685725135393, value=666
+ submission|666|313|project|1 column=STUDENT:snumber, timestamp=1685725135559, value=666
+7 row(s) in 0.0760 seconds
+
+
+alter 'task2', 'delete' => 'FILES'
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+0 row(s) in 3.2490 seconds
+
+
+alter 'task2', {NAME=> 'ENROLMENT',VERSIONS=>2}
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+0 row(s) in 3.0070 seconds
+
+
+put 'task2', 'enrolment|007|312', 'ENROLMENT:date', '12-Mar-2017'
+0 row(s) in 0.0400 seconds
+
+put 'task2', 'enrolment|007|312', 'STUDENT:snumber', '007'
+0 row(s) in 0.0040 seconds
+
+put 'task2', 'enrolment|007|312', 'SUBJECT:code', '312'
+0 row(s) in 0.0050 seconds
+
+
+put 'task2', 'enrolment|666|312', 'ENROLMENT:date', '12-Mar-2017'
+0 row(s) in 0.0060 seconds
+
+put 'task2', 'enrolment|666|312', 'STUDENT:snumber', '666'
+0 row(s) in 0.0350 seconds
+
+put 'task2', 'enrolment|666|312', 'SUBJECT:code', '312'
+0 row(s) in 0.0130 seconds
+
+
+scan 'task2', {COLUMN=>'ENROLMENT', VERSIONS=>2}
+ROW  COLUMN+CELL
+ enrolment|007|312 column=ENROLMENT:date, timestamp=1685725258167, value=12-Mar-2017
+ enrolment|666|312 column=ENROLMENT:date, timestamp=1685725258195, value=12-Mar-2017
+2 row(s) in 0.0080 seconds
+
+
+alter 'task2', {NAME=> 'ENROLMENT', VERSIONS=>3}
+Updating all regions with the new schema...
+0/1 regions updated.
+1/1 regions updated.
+Done.
+0 row(s) in 2.9540 seconds
+
+
+disable 'task2'
+0 row(s) in 2.2890 seconds
+
+drop 'task2'
+0 row(s) in 1.2690 seconds
+

@@ -1,0 +1,47 @@
+print 'Solution for Assignment 3, Task 1'
+print 'Student number: 7431673'
+print 'Student name: Elroy Chua Ming Xuan'
+
+disable 'SOLUTION1'
+drop 'SOLUTION1'
+create 'SOLUTION1', 'DEPARTMENT', 'EMPLOYEE', 'PROJECT'
+describe 'SOLUTION1'
+
+put 'SOLUTION1','department: TECH','DEPARTMENT: name','TECH'
+put 'SOLUTION1','department: TECH','DEPARTMENT: budget','49000'
+
+put 'SOLUTION1','employee:E001|TECH|001','EMPLOYEE: enumber','E001'
+put 'SOLUTION1','employee:E001|TECH|001','EMPLOYEE: first-name','Elroy'
+put 'SOLUTION1','employee:E001|TECH|001','EMPLOYEE: last-name','Chua'
+put 'SOLUTION1','employee:E001|TECH|001','EMPLOYEE: salary','5000'
+put 'SOLUTION1','employee:E001|TECH|001','EMPLOYEE: isDepartmentManager','false'
+put 'SOLUTION1','employee:E001|TECH|001','DEPARTMENT: name','TECH'
+put 'SOLUTION1','employee:E001|TECH|001','PROJECT: code','001'
+
+put 'SOLUTION1','employee:E002|TECH|002','EMPLOYEE: enumber','E002'
+put 'SOLUTION1','employee:E002|TECH|002','EMPLOYEE: first-name','John'
+put 'SOLUTION1','employee:E002|TECH|002','EMPLOYEE: last-name','Doe'
+put 'SOLUTION1','employee:E002|TECH|002','EMPLOYEE: salary','4500'
+put 'SOLUTION1','employee:E002|TECH|002','EMPLOYEE: isDepartmentManager','false'
+put 'SOLUTION1','employee:E002|TECH|002','DEPARTMENT: name','TECH'
+put 'SOLUTION1','employee:E002|TECH|002','PROJECT: code','002'
+
+put 'SOLUTION1','employee:E003|TECH|002','EMPLOYEE: enumber','E003'
+put 'SOLUTION1','employee:E003|TECH|002','EMPLOYEE: first-name','Alex'
+put 'SOLUTION1','employee:E003|TECH|002','EMPLOYEE: last-name','Wasabi'
+put 'SOLUTION1','employee:E003|TECH|002','EMPLOYEE: salary','12000'
+put 'SOLUTION1','employee:E003|TECH|002','EMPLOYEE: isDepartmentManager','true'
+put 'SOLUTION1','employee:E003|TECH|002','DEPARTMENT: name','TECH'
+put 'SOLUTION1','employee:E003|TECH|002','PROJECT: code','001'
+put 'SOLUTION1','employee:E003|TECH|002','PROJECT: code','002'
+
+put 'SOLUTION1', 'project:001', 'PROJECT: code', '001'
+put 'SOLUTION1', 'project:001', 'PROJECT: title', 'Migration from old stack to new stack'
+put 'SOLUTION1', 'project:001', 'PROJECT: salary', '25000'
+
+put 'SOLUTION1', 'project:002', 'PROJECT: code', '002'
+put 'SOLUTION1', 'project:002', 'PROJECT: title', 'Web Scraper'
+put 'SOLUTION1', 'project:002', 'PROJECT: salary', '10000'
+
+describe 'SOLUTION1'
+scan 'SOLUTION1'

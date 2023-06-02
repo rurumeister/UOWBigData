@@ -1,0 +1,83 @@
+//Solution for Assignment 3, Task 4
+//Student number: 7431673
+//Student name: Elroy Chua Ming Xuan
+
+scala> val salesRDD = sc.textFile("sales.txt")
+salesRDD: org.apache.spark.rdd.RDD[String] = sales.txt MapPartitionsRDD[1] at textFile at <console>:24
+
+scala> val pairs = salesRDD.map(s =>(s.split(" ")(0), (s.split(" ")(1).toInt)))
+pairs: org.apache.spark.rdd.RDD[(String, Int)] = MapPartitionsRDD[2] at map at <console>:25
+
+scala> pairs.collect()
+res0: Array[(String, Int)] = Array((bolt,45), (bolt,5), (drill,1), (drill,1), (screw,1), (screw,2), (screw,3), (nut,10), (nut,5), (washer,2), (washer,5), (hammer,1), (hammer,3), (pliers,2), (pliers,2), (tapeMeasure,1), (tapeMeasure,1))
+
+scala> val result = pairs.reduceByKey((a,b)=>a+b)
+result: org.apache.spark.rdd.RDD[(String, Int)] = ShuffledRDD[3] at reduceByKey at <console>:25
+
+scala> result.collect()
+res1: Array[(String, Int)] = Array((screw,6), (washer,7), (hammer,4), (tapeMeasure,2), (pliers,4), (bolt,50), (nut,15), (drill,2))
+
+scala> result.foreach(println)
+(pliers,4)
+(bolt,50)
+(nut,15)
+(drill,2)
+(screw,6)
+(washer,7)
+(hammer,4)
+(tapeMeasure,2)
+
+scala> case class Sale(name:String, quantity:Int)
+defined class Sale
+
+scala> val lines = sc.textFile("sales.txt")
+lines: org.apache.spark.rdd.RDD[String] = sales.txt MapPartitionsRDD[5] at textFile at <console>:24
+
+scala> val salesDF = spark.sparkContext.textFile("sales.txt").map(_.split(" ")).map(attributes => Sale(attributes(0), attributes(1).trim.toInt)).toDF()
+salesDF: org.apache.spark.sql.DataFrame = [name: string, quantity: int]
+
+scala> salesDF.show()
++-----------+--------+
+|       name|quantity|
++-----------+--------+
+|       bolt|      45|
+|       bolt|       5|
+|      drill|       1|
+|      drill|       1|
+|      screw|       1|
+|      screw|       2|
+|      screw|       3|
+|        nut|      10|
+|        nut|       5|
+|     washer|       2|
+|     washer|       5|
+|     hammer|       1|
+|     hammer|       3|
+|     pliers|       2|
+|     pliers|       2|
+|tapeMeasure|       1|
+|tapeMeasure|       1|
++-----------+--------+
+
+
+scala> salesDF.createOrReplaceTempView("SalesView")
+
+scala> val sqlDF = spark.sql("select name, sum(quantity) from SalesView group by name")
+sqlDF: org.apache.spark.sql.DataFrame = [name: string, sum(quantity): bigint]
+
+scala> sqlDF.show()
++-----------+-------------+                                                     
+|       name|sum(quantity)|
++-----------+-------------+
+|tapeMeasure|            2|
+|     hammer|            4|
+|     washer|            7|
+|        nut|           15|
+|       bolt|           50|
+|      drill|            2|
+|      screw|            6|
+|     pliers|            4|
++-----------+-------------+
+
+
+scala> 

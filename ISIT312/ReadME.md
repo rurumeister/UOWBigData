@@ -19,4 +19,15 @@ ISIT312
 │   │   ├── solution3.rpt
 │   │   ├── solution4.hql
 │   │   ├── solution4.rpt
+├── ├── A3-solutions
+│   │   ├── assigment3.pdf
+│   │   ├── solution1.hb
+│   │   ├── solution1.rpt
+│   │   ├── solution2.hb
+│   │   ├── solution2.rpt
+│   │   ├── solution3.pig
+│   │   ├── solution3.rpt
+│   │   ├── solution4.rpt
+│   │   ├── task2.hb
+│   │   ├── task3.zip
 ```

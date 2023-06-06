@@ -49,7 +49,6 @@ ORDER BY city;
 --average temperature from all measurements
 SELECT AVG(temperature) as avg_temperature
 FROM hightemp;
-
 -- 5) Write SELECT statement that lists five month moving average of temperate measurements per each city.
 SELECT city, date, temperature, AVG(temp) OVER (PARTITION BY city ORDER BY date ROWS BETWEEN 4 PRECEDING AND CURRENT ROW) as five_month_avg
 FROM hightemp

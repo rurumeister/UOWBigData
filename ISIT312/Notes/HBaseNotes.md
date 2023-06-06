@@ -55,7 +55,6 @@ HBase Notes:
 - provides BigTable view of data stored in HDFS
 - data model is sparce, distributed, persistent multidimensional sorted map
 - indexed by row key, column key and timestamp
-
 - organizes data into tables, HBase table consists of rows and each row is uniquely identified by a row key
 - data in a row is grouped by a column family. Column families have an important impact on the physical implementation of HBase table.
 - combination of row key, column family and column qualifier uniquely identifies a cell
@@ -66,6 +65,7 @@ HBase Notes:
 - if no time stamp is determined at write time, curr timestamp will be used, if no timestamp is determined during read, the latest is determined
 - max allowed number of cell value versions is determined for column family. Default number of versions is three
 HBase Table as a nested struct:
+
 ```
 {"Row-0001":
 	{"Home":

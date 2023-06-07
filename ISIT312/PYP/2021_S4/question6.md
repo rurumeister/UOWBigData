@@ -52,4 +52,5 @@ val totalQuantityPerItem = spark.sql("""
   FROM details
   GROUP BY item_name
 """)
+
 ```

@@ -21,9 +21,10 @@ SELECT COUNT(DISTINCT city) AS total_cities
 FROM hightemp;
 
 -- 2) Write SELECT statement that lists the names of cities, temperature measurements and dates sorted in the ascending order of the temperature measurements per each city. Additionally, list a rank of each temperature measurement in each city.
-SELECT city, temperature, date
+SELECT city, temperature, date,RANK() OVER(PARTITION BY city ORDER BY temperature ASC) AS RANK
 FROM hightemp
 ORDER BY temperature ASC;
+
 -- 3) Write SELECT statement that lists an average temperature per year and per year and city.
 -- Average temperature per year 
 SELECT SUBSTRING(date, -4) as year, AVG(temperature) as avg_temp
@@ -39,8 +40,8 @@ ORDER BY year, city;
 -- avg temp per year per city
 SELECT SUBSTRING(date, -4) as year, AVG(temperature) as avg_temp, city
 FROM hightemp
-GROUP BY SUBSTRING(date, -4), city
-ORDER BY year, city;
+GROUP BY city
+ORDER BY year;
 --avg temp per city
 SELECT city, AVG(temperature) as avg_temp
 FROM hightemp

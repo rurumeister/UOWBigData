@@ -118,43 +118,19 @@ scan 'QUESTION5', {FILTER => "SingleColumnValueFilter('ACCIDENT', 'street', =,'S
 
 # Question 6
 ```java
-// Assume that the file people.txt is in the HDFS directory 
-// hdfs://localhost:8080/people/. The contents in people.txt are as follows:
-// Michael, 29, software engineer
-// Andy, 30, data scientist
-// Justin, 19, business analyst
-// ...
-// Explain how to load people.txt into a Spark dataframe named peopleDF, where the first and third 
-// columns should have a string field and the second column should have an integer field. Also present 
-// the Scala source code of your operations
-// Define a case class to represent schema
-case class Person(name: String, age: int, occupation:String)
-// load text file into rdd
-val peopleRDD = sc.textfile("people.txt")
-//convert rdd of strings into rdd of person objects
-val people= peopleRDD.map(_.split(",")).map(attributes => Person(attributes(0), attributes(1).toInt, attributes(2)))
-val peopleDF = peope.toDF()
+// 1)  Load the contents of a file sales.txt located in HDFS into a Resilient Distributed Dataset (RDD) and use RDD to find the total sales pert part.
+val salesRDD = sc.textFile("sales.txt")
+val line = salesRDD.map(s => (s.split(" ")(0)), (s.split(" ")(1).toInt))
+val result = line.reduceByKey((a, b) => a+b)
 
-//Assume that a dataframe named FlightsDF of flight statistics is defined in Spark, with the 
-following code processed:
-FlightsDF.printSchema()
-Out:
-root
-|-- DEST_CITY: string (nullable = true)
-|-- DEST_COUNTRY_NAME: string (nullable = true)
-|-- ORIGIN_CITY: string (nullable = true)
-|-- ORIGIN_COUNTRY_NAME: string (nullable = true)
-DF.show(2)
-Out:
-+----------------------+-----------+--------------+
-|DEST_CITY|DEST_COUNTRY|ORIGIN_CITY|ORIGIN_COUNTRY|
-+---------+------------+-----------+--------------+
-|Sydney |Australia |Melbourne |Australia | 
-|Auckland |New Zealand |Singapore |Singapore |
-+---------+------------+-----------+--------------+
+// 2) Load the contents of a file sales.txt located in HDFS into a Dataset and use the Dataset to find the total sales pert part
+class case Sale(name: String, quantity: int)
 
-// only showing top 2 rows
-// Based on FlightsDF, write down the Scala code in Spark to implement the operation
-// • “Find the country or countries with most international flights”
-// Note. An international flight has different original and destination countries.
+val salesDF = spark.sparkContext.textFile("sales.txt").map(_.split(" ").map(attributes => Sale(attributes(0), attributes(0).toInt))).toDF()
+sales.toDF()
+
+//3)
+salesDF.createOrReplaceTempView("SalesView")
+val salesSQL = spark.sql("SELECT part, SUM(quantity) FROM SalesView group by part")
+salesSQL.show()
 ```

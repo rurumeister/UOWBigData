@@ -114,6 +114,9 @@ PUT 'QUESTION5', 'ACCIDENT: 01|03|23|P001|John|Doe|CAR:C001|Toyota|Camry|Serango
 scan 'QUESTIONS5', {FILTER => "SingleColumnValueFilter('ACCIDENT', 'damages', >, 1000)"}
 -- 5.2 List first names and last names of people involved in accidents in Sydney in 2019
 scan 'QUESTION5', {FILTER => "SingleColumnValueFilter('ACCIDENT', 'street', =,'Sydney') AND SingleColumnValueFilter('ACCIDENT', 'year', =, '2019')", COLUMNS => ['PERSON:first-name', 'PERSON:last-name']}
+-- 5.3 Get one
+get 'QUESTION5', {FILTER=> "SingleColumnValueFilter('')"}
+
 ```
 
 # Question 6

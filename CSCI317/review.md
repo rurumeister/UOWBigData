@@ -99,33 +99,44 @@ select P_RETAILPRICE > 100  select P_SUPPLYCOST < 20
 For each one of SELECT statements listed below find an index that speeds up the processing of a statement in the best possible way. Note, that an index must be created separately for each one of SELECT statements. Write CREATE INDEX statements to create the indexes.
 
 ```SQL
-(1) SELECT P_BRAND, COUNT(_) FROM PART
+(1) SELECT P_BRAND, COUNT(*) FROM PART
 GROUP BY P_BRAND
 HAVING COUNT(_) > 2;
+
+CREATE INDEX idx1 ON PART(P_BRAND);
+-- an indexon attribute p_brand is created so that system can traverse horizontally at the leaf level to compute the count.
 
 (2) SELECT AVG(L_QUANTITY) FROM ORDERS JOIN LINEITEM
 ON O_ORDERKEY = L_ORDERKEY;
 
+CREATE INDEX idx2 ON LINEITEM(L_QUANTITY, L_ORDERKEY);
+-- an index on attributes L_ORDERKEY and L_QUANTITY is created so that system can perform horizonal scan of the index of the leaf level.
 (3) SELECT AVG(OPS_AVAILQTY) FROM PARTSUPP
 WHERE PS_SUPPNAME = 'James';
+-- an index on attributes PS_SUPPNAME and PS_AVAILQTY is created so that the system can perform index range scan and return average.
+CREATE INDEX idx3 ON PARTSUPP(PS_SUPPNAME, PS_AVAILQTY)
 
 (4) SELECT P_NAME, FROM PART
 WHERE P_BRAND = 'RUBBISH' ORDER BY P_NAME;
+
+CREATE index Idx4 on PART(P_BRAND, P_NAME);
+-- An index on the attribute P_BRAND and P_NAME is created so that the system can perform an index range scan on the index
 
 (5) SELECT C_NAME FROM CUSTOMER
 WHERE C_NATIONKEY = 'SG'; MINUS
 SELECT C_NAME
 FROM CUSTOMER
 WHERE C_ADDRESS LIKE '%Bugis%';
+
+CREATE index Idx5 on CUSTOMER(c_nationkey, c_address, c_name);
+-- An index on the attributes C_NATIONKEY, C_ADDRESS, and C_NAME is created so that the system can perform, first time, a range scan for the first query and second time, a full index scan for the second query.
 ```
 
-## Question 3: Indexing
+## Question 5: Materialized View
 
-## Question 4: Materialized View
+## Question 6: JDBC
 
-## Question 5: JDBC
-
-## Question 6: Execution Plan
+## Question 7: Execution Plan
 
 1. Cardinality - refers to the estimated number of
    rows coming out of each of the operations.
@@ -172,4 +183,4 @@ WHERE C_ADDRESS LIKE '%Bugis%';
 
 5. Join Order: the order in which the tables are joined together in a multi-table SQL statement.
 
-## Question 7: Transaction Chopping
+## Question 8: Transaction Chopping
